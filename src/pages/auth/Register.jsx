@@ -51,7 +51,7 @@ export default function Register() {
   // Step 4 — verification
   const [verification, setVerification] = useState({ aadhaarNumber: '', panCard: '' })
 
-  const API = 'http://localhost:8080/api/auth'
+  const API = 'https://sipspot-backend.onrender.com/api/auth'
 
   // ─── Initiate Registration ───────────────────────────────────────────
   const handleInitiate = async (e) => {

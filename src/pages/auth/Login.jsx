@@ -31,7 +31,7 @@ export default function Login() {
     setLoading(true)
     setError('')
     try {
-      const res = await axios.post('http://localhost:8080/api/auth/login', form)
+      const res = await axios.post('https://sipspot-backend.onrender.com/api/auth/login', form)
       const data = res.data
       login(data)
       if (data.firstLogin) {

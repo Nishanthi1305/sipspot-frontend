@@ -43,7 +43,7 @@ export default function ResetPassword() {
     }
     setLoading(true)
     try {
-      await axios.post('http://localhost:8080/api/auth/reset-password', form)
+      await axios.post('https://sipspot-backend.onrender.com/api/auth/reset-password', form)
       setSuccess('Password reset successful! Redirecting to login...')
       setTimeout(() => navigate('/login'), 2500)
     } catch (err) {
