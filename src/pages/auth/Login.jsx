@@ -15,29 +15,25 @@ const C = {
 }
 
 export default function Login() {
+  const API = import.meta.env.VITE_API_URL
+
   const navigate = useNavigate()
   const { login } = useAuth()
-  const [form, setForm] = useState({ username: '', password: '' })
-  const [error, setError] = useState('')
-  const [loading, setLoading] = useState(false)
-
-  const handleChange = (e) => {
-    setForm({ ...form, [e.target.name]: e.target.value })
-    setError('')
-  }
 
   const handleSubmit = async (e) => {
     e.preventDefault()
     setLoading(true)
     setError('')
     try {
-      const res = await axios.post('https://sipspot-backend.onrender.com/api/auth/login', form)
+      const res = await axios.post(`${API}/api/auth/login`, form)
       const data = res.data
       login(data)
+
       if (data.firstLogin) {
         navigate('/reset-password', { state: { username: data.username } })
         return
       }
+
       navigate(data.redirectTo)
     } catch (err) {
       setError(err.response?.data?.error || 'Invalid username or password!')
@@ -45,7 +41,6 @@ export default function Login() {
       setLoading(false)
     }
   }
-
   return (
     <div style={{
       minHeight: '100vh', backgroundColor: C.bg, color: C.text,
