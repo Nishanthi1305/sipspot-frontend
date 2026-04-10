@@ -54,22 +54,32 @@ export default function Register() {
   const API = 'https://sipspot-backend.onrender.com/api/auth'
 
   // ─── Initiate Registration ───────────────────────────────────────────
-  const handleInitiate = async (e) => {
-    e.preventDefault()
-    setLoading(true)
-    setError('')
-    try {
-      const res = await axios.post(`${API}/register/initiate`, { email, userType })
-      setUserId(res.data.userId)
-      setInitiated(true)
-      setSuccess('Verification email sent! Please verify your email then continue.')
-    } catch (err) {
-      setError(err.response?.data?.error || 'Something went wrong!')
-    } finally {
-      setLoading(false)
-    }
-  }
+const handleInitiate = async (e) => {
+  e.preventDefault()
+  setLoading(true)
+  setError('')
 
+  try {
+    // ✅ FIX: map frontend role → backend role
+    const roleMap = {
+      CUSTOMER: "ROLE_CUSTOMER",
+      CAFE_OWNER: "ROLE_CAFE_OWNER"
+    }
+
+    const res = await axios.post(`${API}/register/initiate`, {
+      email,
+      userType: roleMap[userType] // ✅ IMPORTANT FIX
+    })
+
+    setUserId(res.data.userId)
+    setInitiated(true)
+    setSuccess('Verification email sent! Please verify your email then continue.')
+  } catch (err) {
+    setError(err.response?.data?.error || 'Something went wrong!')
+  } finally {
+    setLoading(false)
+  }
+}
   // ─── Step 1: Personal Info ───────────────────────────────────────────
   const handlePersonal = async (e) => {
     e.preventDefault()
